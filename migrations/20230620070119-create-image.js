@@ -15,6 +15,7 @@ module.exports = {
             },
             superheroId: {
                 field: 'superhero_id',
+                allowNull: false,
                 type: Sequelize.INTEGER,
                 references: {
                     model: {
