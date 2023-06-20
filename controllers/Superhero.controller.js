@@ -29,7 +29,14 @@ module.exports.findOne = async (req, res, next) => {
 
 module.exports.findAll = async (req, res, next) => {
     try {
-        const superheroes = await Superhero.findAll();
+        const {pagination} = req;
+        console.log(pagination)
+        const superheroes = await Superhero.findAll({
+            attributes: {
+                exclude: ['id']
+            },
+            ...pagination
+        });
         res.status(200).send(superheroes);
     } catch (err) {
         next(err);
