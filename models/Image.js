@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate (models) {
             Image.belongsTo(models.Superhero, {
                 foreignKey: {
-                    allowNull: false,
+                    // allowNull: false,
                     field: "superhero_id",
                 },
                 onDelete: "CASCADE",

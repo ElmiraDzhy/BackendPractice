@@ -5,7 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class Superhero extends Model {
         static associate (models) {
-            Superhero.hasMany(models.Image);
+            Superhero.hasMany(models.Image, {foreignKey: 'superhero_id'});
             Superhero.belongsToMany(models.Superpower, {
                 through: 'superpowers-to-superheroes',
                 foreignKey: 'superhero_id'

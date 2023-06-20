@@ -1,19 +1,31 @@
 const createError = require('http-errors');
-const {Superhero, Superpower} = require("./../models");
+const {Superhero, Superpower, Image} = require("./../models");
 
 module.exports.create = async (req, res, next) => {
     //todo: add ability to create superhero with his images
-    const {body} = req;
+    const pathArray = [...req.files].map(file => file.filename);
+    const {body: {payload}} = req;
+    const superheroBody = JSON.parse(payload);
+    console.log(superheroBody)
     try {
-        const superheroInstance = await Superhero.create(body);
-        for (let i = 0; i < body.superpowers.length; i++) {
-            const superpowerInstance = await Superpower.findAll({
-                where: {
-                    description: body.superpowers[i]
-                }
-            })
-            superheroInstance.addSuperpower(superpowerInstance);
+        const superheroInstance = await Superhero.create(superheroBody);
+
+        if (superheroBody.superpowers) {
+            for (let i = 0; i < superheroBody.superpowers.length; i++) {
+                const superpowerInstance = await Superpower.findAll({
+                    where: {
+                        description: superheroBody.superpowers[i]
+                    }
+                })
+                superheroInstance.addSuperpower(superpowerInstance);
+            }
         }
+
+        for (let i = 0; i < pathArray.length; i++) {
+            const path = pathArray[i];
+            const res = await superheroInstance.createImage({path, superhero_id: superheroInstance.id});
+        }
+
         return res.status(201).send(superheroInstance);
     } catch (err) {
         next(err);
@@ -73,11 +85,11 @@ module.exports.updateOne = async (req, res, next) => {
         const {params: {superheroId}, body} = req;
         const superheroInstance = await Superhero.findByPk(superheroId);
         const updatedSuperheroInstance = await Superhero.update(body, {
-            where:{
+            where: {
                 id: Number(superheroId)
             }
         });
-        for (let i = 0; i < body.superpowers.length; i++){
+        for (let i = 0; i < body.superpowers.length; i++) {
             const powerInstance = await Superpower.findAll({
                 where: {
                     description: body.superpowers[i]

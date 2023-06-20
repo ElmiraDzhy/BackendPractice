@@ -5,11 +5,17 @@ const router = require("./routes/apiRouter");
 const app = express();
 
 //mount json body parser mw
-app.use( express.json() );
+app.use(express.json());
 
 app.use('/api', router);
 
 //static files
-// app.use(express.static(''));
+app.use(express.static('public/images'));
+
+app.use(function (err, req, res, next) {
+    console.log('error here')
+    const statusErr = err.status || 500;
+    res.status(statusErr).send({errors: err.message || 'Server error'});
+})
 
 module.exports = app;
