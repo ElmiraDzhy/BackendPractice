@@ -2,11 +2,9 @@ const createError = require('http-errors');
 const {Superhero, Superpower, Image} = require("./../models");
 
 module.exports.create = async (req, res, next) => {
-    //todo: add ability to create superhero with his images
     const pathArray = [...req.files].map(file => file.filename);
     const {body: {payload}} = req;
     const superheroBody = JSON.parse(payload);
-    console.log(superheroBody)
     try {
         const superheroInstance = await Superhero.create(superheroBody);
 
@@ -25,7 +23,6 @@ module.exports.create = async (req, res, next) => {
             const path = pathArray[i];
             const res = await superheroInstance.createImage({path, superhero_id: superheroInstance.id});
         }
-
         return res.status(201).send(superheroInstance);
     } catch (err) {
         next(err);
@@ -104,5 +101,19 @@ module.exports.updateOne = async (req, res, next) => {
 };
 
 module.exports.findSuperheroWithPowers = async (req, res, next) => {
+    try {
+        const {params: {superheroId}} = req;
+        const superheroWithPowers = await Superhero.findAll({
+            include: [{
+                model: Superpower,
+            }],
+            where: {
+                id: Number(superheroId)
+            }
+        })
 
+        res.status(200).send({data: superheroWithPowers})
+    } catch (err) {
+        next(err);
+    }
 }
