@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     class Superpower extends Model {
 
         static associate (models) {
-            Superpower.belongsToMany(model.Superhero, {
+            Superpower.belongsToMany(models.Superhero, {
                 through: 'superpowers-to-superheroes',
                 foreignKey: 'superpower_id'
             });
