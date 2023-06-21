@@ -13,7 +13,7 @@ app.use('/api', router);
 app.use(express.static('public/images'));
 
 app.use(function (err, req, res, next) {
-    console.log('error here')
+
     const statusErr = err.status || 500;
     res.status(statusErr).send({errors: err.message || 'Server error'});
 })
