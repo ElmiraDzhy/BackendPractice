@@ -22,7 +22,7 @@ superheroRouter.post('/', upload.array('image', 10), checkSuperpowers, Superhero
 superheroRouter.get('/', pagination, SuperheroController.findAll);
 superheroRouter.get('/:superheroId', SuperheroController.findOne);
 superheroRouter.delete('/:superheroId', SuperheroController.deleteOne);
-superheroRouter.patch('/:superheroId', checkSuperpowers, SuperheroController.updateOne);
+superheroRouter.patch('/:superheroId', upload.array('image', 10), checkSuperpowers, SuperheroController.updateOne);
 superheroRouter.get('/:superheroId/powers', SuperheroController.findSuperheroWithPowers);
 
 module.exports = superheroRouter;

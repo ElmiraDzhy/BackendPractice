@@ -15,13 +15,13 @@ module.exports.create = async (req, res, next) => {
                         description: superheroBody.superpowers[i]
                     }
                 })
-                superheroInstance.addSuperpower(superpowerInstance);
+                await superheroInstance.addSuperpower(superpowerInstance);
             }
         }
 
         for (let i = 0; i < pathArray.length; i++) {
             const path = pathArray[i];
-            const res = await superheroInstance.createImage({path, superhero_id: superheroInstance.id});
+            await superheroInstance.createImage({path, superhero_id: superheroInstance.id});
         }
         return res.status(201).send(superheroInstance);
     } catch (err) {
@@ -77,22 +77,32 @@ module.exports.deleteOne = async (req, res, next) => {
 };
 
 module.exports.updateOne = async (req, res, next) => {
-    //todo: add ability to update superhero's images
     try {
-        const {params: {superheroId}, body} = req;
+        const pathArray = [...req.files].map(file => file.filename);
+        const {params: {superheroId}, body: {payload}} = req;
+
+        const body = JSON.parse(payload);
         const superheroInstance = await Superhero.findByPk(superheroId);
+
         const updatedSuperheroInstance = await Superhero.update(body, {
             where: {
                 id: Number(superheroId)
             }
         });
-        for (let i = 0; i < body.superpowers.length; i++) {
-            const powerInstance = await Superpower.findAll({
-                where: {
-                    description: body.superpowers[i]
-                }
-            })
-            superheroInstance.addSuperpower(powerInstance);
+        if (body.superpowers) {
+            for (let i = 0; i < body.superpowers.length; i++) {
+                const powerInstance = await Superpower.findAll({
+                    where: {
+                        description: body.superpowers[i]
+                    }
+                });
+                await superheroInstance.addSuperpower(powerInstance);
+            }
+        }
+
+        for (let i = 0; i < pathArray.length; i++) {
+            const path = pathArray[i];
+            await superheroInstance.createImage({path, superhero_id: superheroInstance.id});
         }
         res.status(200).send({data: updatedSuperheroInstance});
     } catch (err) {
