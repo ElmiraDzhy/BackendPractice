@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     Image.init({
         path: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     }, {
         sequelize,

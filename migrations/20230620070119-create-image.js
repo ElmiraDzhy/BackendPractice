@@ -11,7 +11,8 @@ module.exports = {
             },
             path: {
                 type: Sequelize.TEXT,
-                allowNull: false
+                allowNull: false,
+                unique: true
             },
             superheroId: {
                 field: 'superhero_id',
