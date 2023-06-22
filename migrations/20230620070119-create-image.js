@@ -36,6 +36,11 @@ module.exports = {
                 type: Sequelize.DATE
             }
         });
+        await queryInterface.addConstraint('images', {
+            fields: ['path', 'superheroId'],
+            type: 'unique',
+            name: 'unique_path_superheroId'
+        });
     },
     async down (queryInterface, Sequelize) {
         await queryInterface.dropTable('images');
