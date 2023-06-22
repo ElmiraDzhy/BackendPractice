@@ -20,9 +20,8 @@ module.exports.create = async (req, res, next) => {
             }
         }
 
-        for (let i = 0; i < pathArray.length; i++) {
-            const path = pathArray[i];
-            await superheroInstance.createImage({path, superhero_id: superheroInstance.id});
+        for (const path of pathArray) {
+            await Image.create({ path: path, superhero_id:  superheroInstance.id });
         }
 
         return res.status(201).send(superheroInstance);
@@ -103,9 +102,8 @@ module.exports.updateOne = async (req, res, next) => {
             }
         }
 
-        for (let i = 0; i < pathArray.length; i++) {
-            const path = pathArray[i];
-            await superheroInstance.createImage({path, superhero_id: superheroInstance.id});
+        for (const path of pathArray) {
+            await Image.create({ path, superhero_id: superheroId });
         }
 
         res.status(200).send({data: updatedSuperheroInstance});
