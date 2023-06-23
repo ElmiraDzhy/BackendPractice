@@ -15,3 +15,23 @@ This is the backend part of a CRUD (Create, Read, Update, Delete) web applicatio
 - PostgreSQL
 - Sequelize
 - Multer
+
+## Installation
+
+1. Clone the repository:
+
+   ```shell
+   git clone <repository-url>
+
+2. Navigate to the project directory:
+
+   ```shell
+   cd superhero-crud-backend
+   
+3. Install the dependencies:
+
+   ```shell
+   npm install
+   
+
+
