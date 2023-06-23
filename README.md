@@ -32,6 +32,32 @@ This is the backend part of a CRUD (Create, Read, Update, Delete) web applicatio
 
    ```shell
    npm install
-   
+
+4. Set up the PostgreSQL database:
+
+   Create a new PostgreSQL database.
+   Update the database configuration in the .env file or config/config.json file to match your PostgreSQL settings.
+
+
+5. Run database migrations:
+
+   ```shell
+   npx sequelize-cli db:migrate
+
+6. Start the server:
+
+   ```shell
+   npm start
+
+7. The server should now be running on http://localhost:3000.
+
+# API Endpoints
+The following API endpoints are available:
+
+GET /superheroes - Get a list of all superheroes.
+POST /superheroes - Create a new superhero.
+GET /superheroes/:id - Get details of a specific superhero.
+PUT /superheroes/:id - Update details of a specific superhero.
+DELETE /superheroes/:id - Delete a specific superhero.
 
 
