@@ -51,7 +51,7 @@ This is the backend part of a CRUD (Create, Read, Update, Delete) web applicatio
 
 7. The server should now be running on http://localhost:3000.
 
-# API Endpoints
+## API Endpoints
 The following API endpoints are available:
 
 - GET /superheroes - Get a list of all superheroes.
